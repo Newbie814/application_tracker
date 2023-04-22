@@ -1,5 +1,6 @@
 import landingArt from '../assets/landingArt.svg';
 import styled from 'styled-components';
+import { Logo } from '../components';
 
 const logo =
   'https://res.cloudinary.com/dylvkdabj/image/upload/v1680496923/website%20pics%20family/development_logo_hpyyun.jpg';
@@ -8,7 +9,9 @@ const Landing = () => {
   return (
     <Wrapper>
       <nav>
-        <img src={logo} alt='woodard software logo' className='logo' />
+        {/* <img src={logo} alt='woodard software logo' className='logo' />
+         */}
+        <Logo />
       </nav>
       <div className='container page'>
         <div className='info'>
@@ -45,6 +48,7 @@ const Wrapper = styled.main`
   }
   .logo {
     width: 20rem;
+    border-radius: var(--borderRadius);
   }
   .page {
     min-height: calc(100vh - var(--nav-height));
