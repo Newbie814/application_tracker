@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import landingArt from '../assets/landingArt.svg';
 import styled from 'styled-components';
 import { Logo } from '../components';
@@ -24,7 +26,10 @@ const Landing = () => {
             velit? Assumenda, consequatur sapiente unde quibusdam ab inventore
             earum sint provident.
           </p>
-          <button className='btn btn-hero'>Login/Register</button>
+          {/* <button className='btn btn-hero'>Login/Register</button> */}
+          <Link to='/register' className='btn btn-hero'>
+            Login/Register
+          </Link>
         </div>
         <img
           src={landingArt}
