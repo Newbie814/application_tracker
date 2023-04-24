@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Logo } from '../components';
+import { Logo, FormRow } from '../components';
 
 import styled from 'styled-components';
 
@@ -29,15 +29,23 @@ const Register = () => {
         <h3>Login</h3>
         {/* name field */}
         <div className='form-control'>
-          <label htmlFor='name' className='form-label'>
-            Name:
-          </label>
-          <input
+          <FormRow
             type='text'
-            name='name'
+            name='name:'
             value={values.name}
-            onChange={handleChange}
-            className='form-input'
+            handleChange={handleChange}
+          />
+          <FormRow
+            type='email'
+            name='email:'
+            value={values.email}
+            handleChange={handleChange}
+          />
+          <FormRow
+            type='text'
+            name='password:'
+            value={values.password}
+            handleChange={handleChange}
           />
         </div>
         <button type='submit' className='btn btn-block'>
