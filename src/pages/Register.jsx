@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Logo, FormRow } from '../components';
+import { toast } from 'react-toastify';
 
 import styled from 'styled-components';
 
@@ -14,36 +15,49 @@ const Register = () => {
   const [values, setValues] = useState(initialState);
 
   const handleChange = (e) => {
-    console.log(e.target);
+    const name = e.target.name;
+    const value = e.target.value;
+    console.log(`${name}: ${value}`);
+    setValues({ ...values, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    const { name, email, password, isMember } = values;
+    if (!email || !password || (!isMember && !name)) {
+      toast.error('Please fill out all fields');
+      return;
+    }
+  };
+
+  const toggleMember = () => {
+    setValues({ ...values, isMember: !values.isMember });
   };
 
   return (
     <Wrapper className='full-page'>
       <form className='form' onSubmit={handleSubmit}>
         <Logo className='logo' />
-        <h3>Login</h3>
+        <h3>{values.isMember ? 'Login' : 'Register'}</h3>
         {/* name field */}
         <div className='form-control'>
-          <FormRow
-            type='text'
-            name='name:'
-            value={values.name}
-            handleChange={handleChange}
-          />
+          {!values.isMember && (
+            <FormRow
+              type='text'
+              name='name'
+              value={values.name}
+              handleChange={handleChange}
+            />
+          )}
           <FormRow
             type='email'
-            name='email:'
+            name='email'
             value={values.email}
             handleChange={handleChange}
           />
           <FormRow
-            type='text'
-            name='password:'
+            type='password'
+            name='password'
             value={values.password}
             handleChange={handleChange}
           />
@@ -51,6 +65,12 @@ const Register = () => {
         <button type='submit' className='btn btn-block'>
           submit
         </button>
+        <p>
+          {values.isMember ? 'Not a member?' : 'Already a member?'}
+          <button type='button' className='member-btn' onClick={toggleMember}>
+            {values.isMember ? 'Register' : 'Login'}
+          </button>
+        </p>
       </form>
     </Wrapper>
   );
