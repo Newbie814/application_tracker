@@ -1,9 +1,34 @@
 import styled from 'styled-components';
+import { FaTimes } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
+import Logo from './Logo';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleSidebar } from '../features/user/userSlice';
 
 const SmallSidebar = () => {
+  const { isSidebarOpen } = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+  const handleToggleSidebar = () => {
+    dispatch(toggleSidebar());
+  };
+
   return (
     <Wrapper>
-      <h2>SmallSidebar</h2>;
+      <div
+        className={
+          isSidebarOpen ? 'sidebar-container show-sidebar' : 'sidebar-container'
+        }
+      >
+        <div className='content'>
+          <button className='close-btn' onClick={handleToggleSidebar}>
+            <FaTimes />
+          </button>
+          <header className='logo-container'>
+            <Logo />
+          </header>
+          <div className='nav-links'>nav links</div>
+        </div>
+      </div>
     </Wrapper>
   );
 };
@@ -23,6 +48,15 @@ const Wrapper = styled.aside`
     z-index: -1;
     opacity: 0;
     transition: var(--transition);
+  }
+
+  .logo-container {
+    display: grid;
+    place-items: center;
+  }
+
+  .logo {
+    width: 90%;
   }
   .show-sidebar {
     z-index: 99;
