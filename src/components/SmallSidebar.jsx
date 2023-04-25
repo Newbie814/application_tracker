@@ -1,10 +1,11 @@
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 import { FaTimes } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import Logo from './Logo';
-import { useSelector, useDispatch } from 'react-redux';
 import { toggleSidebar } from '../features/user/userSlice';
 import links from '../utils/links';
+import NavLinks from './NavLinks';
 
 const SmallSidebar = () => {
   const { isSidebarOpen } = useSelector((store) => store.user);
@@ -27,24 +28,7 @@ const SmallSidebar = () => {
           <header className='logo-container'>
             <Logo />
           </header>
-          <div className='nav-links'>
-            {links.map((link) => {
-              const { id, path, text, icon } = link;
-              return (
-                <NavLink
-                  key={id}
-                  to={path}
-                  className={({ isActive }) =>
-                    isActive ? 'nav-link active' : 'nav-link'
-                  }
-                  onClick={handleToggleSidebar}
-                >
-                  <span className='icon'>{icon}</span>
-                  {text}
-                </NavLink>
-              );
-            })}
-          </div>
+          <NavLinks />
         </div>
       </div>
     </Wrapper>
@@ -74,7 +58,7 @@ const Wrapper = styled.aside`
   }
 
   .logo {
-    width: 90%;
+    width: 70%;
   }
   .show-sidebar {
     z-index: 99;
