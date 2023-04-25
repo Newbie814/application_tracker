@@ -1,14 +1,31 @@
 import styled from 'styled-components';
 import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa';
 import Logo from './Logo';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import { toggleSidebar, clearStore } from '../features/user/userSlice';
+import { toggleSidebar, logoutUser } from '../features/user/userSlice';
 
 const Navbar = () => {
+  const [showDropdown, setShowDropdown] = useState(false); // for logout dropdown
   const { user } = useSelector((store) => store.user);
   const displayName = user?.name.split(' ')[0];
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/register');
+    }
+  }, [user]);
+
+  const handleToggleSidebar = () => {
+    dispatch(toggleSidebar());
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
 
   return (
     <Wrapper>
@@ -16,7 +33,7 @@ const Navbar = () => {
         <button
           type='button'
           className='toggle-btn'
-          onClick={() => console.log('toggle sidebar')}
+          onClick={handleToggleSidebar}
         >
           <FaAlignLeft />
         </button>
@@ -28,17 +45,17 @@ const Navbar = () => {
           <button
             type='button'
             className='btn'
-            onClick={() => console.log('toggle logout dropdown')}
+            onClick={() => setShowDropdown(!showDropdown)}
           >
             <FaUserCircle />
             {displayName}
             <FaCaretDown />
           </button>
-          <div className='dropdown show-dropdown'>
+          <div className={showDropdown ? 'dropdown show-dropdown' : 'dropdown'}>
             <button
               type='button'
               className='dropdown-btn'
-              onClick={() => console.log('logout user')}
+              onClick={handleLogout}
             >
               logout
             </button>
@@ -88,6 +105,7 @@ const Wrapper = styled.nav`
     gap: 0 0.5rem;
     position: relative;
     box-shadow: var(--shadow-2);
+    min-width: 100px;
   }
   .dropdown {
     position: absolute;
@@ -103,6 +121,7 @@ const Wrapper = styled.nav`
   }
   .show-dropdown {
     visibility: visible;
+    min-width: 100px;
   }
   .dropdown-btn {
     background: transparent;
