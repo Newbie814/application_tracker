@@ -8,7 +8,7 @@ import {
   AddJob,
 } from './pages/dashboard';
 
-import { Landing, Error, Register } from './pages';
+import { Landing, Error, Register, ProtectedRoute } from './pages';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -17,7 +17,14 @@ function App() {
     <div className='App'>
       <Router>
         <Routes>
-          <Route path='/' element={<SharedLayout />}>
+          <Route
+            path='/'
+            element={
+              <ProtectedRoute>
+                <SharedLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<Stats />} />
             <Route path='all-jobs' element={<AllJobs />} />
             <Route path='add-job' element={<AddJob />} />
