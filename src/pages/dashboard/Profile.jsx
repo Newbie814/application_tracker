@@ -1,7 +1,7 @@
 import Wrapper from './dashboardStyles/DashboardFormPage';
 import { useState } from 'react';
 import { FormRow } from '../../components';
-
+import { updateUser } from '../../features/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -22,7 +22,7 @@ const Profile = () => {
       toast.error('Please fill out all fields');
       return;
     }
-    console.log('submit');
+    dispatch(updateUser(userData));
   };
 
   const handleChange = (e) => {
@@ -61,6 +61,9 @@ const Profile = () => {
             value={userData.location}
             handleChange={handleChange}
           />
+          <button type='submit' className='btn btn-block' disabled={isLoading}>
+            {isLoading ? 'Please Wait...' : 'save changes'}
+          </button>
         </div>
       </form>
     </Wrapper>
