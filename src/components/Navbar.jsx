@@ -77,7 +77,7 @@ const Wrapper = styled.nav`
   .logo {
     display: flex;
     align-items: center;
-    width: 100px;
+    width: 300px;
   }
   .nav-center {
     display: flex;
