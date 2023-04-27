@@ -3,7 +3,11 @@ import Wrapper from '../../pages/dashboard/dashboardStyles/DashboardFormPage';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { FormRowSelect } from '../../components';
-import { handleChange, clearValues } from '../../features/job/jobSlice';
+import {
+  handleChange,
+  clearValues,
+  createJob,
+} from '../../features/job/jobSlice';
 
 const AddJob = () => {
   const {
@@ -22,14 +26,13 @@ const AddJob = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, value } = e.target;
+
     if (!position || !company || !jobLocation) {
       toast.error('Missing required fields');
       return;
     }
+    dispatch(createJob({ position, company, jobLocation, jobType, status }));
     dispatch(clearValues());
-    // console.log('name: ', name, 'value: ', value);
-    console.log(e.target);
   };
 
   const handleJobInput = (e) => {

@@ -16,6 +16,28 @@ const initialState = {
   editJobId: '',
 };
 
+export const createJob = createAsyncThunk(
+  'job/createJob',
+  async (job, thunkAPI) => {
+    try {
+      const response = await customFetch.post('/jobs', job, {
+        headers: {
+          authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
+        },
+      });
+      console.log(job);
+      thunkAPI.dispatch(clearValues());
+      return response.data;
+    } catch (error) {
+      if (error.response.status === 401) {
+        thunkAPI.dispatch(logoutUser());
+        return thunkAPI.rejectWithValue('Unauthorized');
+      }
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
 const jobSlice = createSlice({
   name: 'job',
   initialState,
@@ -24,11 +46,22 @@ const jobSlice = createSlice({
       state[name] = value;
     },
     clearValues: () => {
-      return {
-        ...initialState,
-      };
       return initialState;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createJob.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createJob.fulfilled, (state, action) => {
+        state.isLoading = false;
+        toast.success('Job created successfully!');
+      })
+      .addCase(createJob.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(payload);
+      });
   },
 });
 
